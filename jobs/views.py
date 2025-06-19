@@ -23,6 +23,8 @@ class JobIndex(ListView):
         context["job_count"] = self.get_queryset().count()
         context["company_count"] = Job.objects.values('company_name').distinct().count()
         context["search_query"] = self.request.GET.get('search', '')
+        context["description"] = 'Python.PH Jobs Board'
+        context["page_type"] = 'website'
         return context
 
 class JobDetail(DetailView):
@@ -36,6 +38,9 @@ class JobDetail(DetailView):
         context["related_jobs"] = Job.objects.filter(
             company_name=self.object.company_name
         ).exclude(id=self.object.id)[:3]
+        context["title"] = f'{ context["job"].title } at { context["job"].company_name } - '
+        context["description"] = context["job"].short_description
+        context["page_type"] = 'article'
         return context
 
 class CompanyList(ListView):
@@ -65,4 +70,7 @@ class CompanyList(ListView):
             ).order_by('-created_at')[:3]
             company_jobs[company['company_name']] = latest_jobs
         context['company_jobs'] = company_jobs
+        context["title"] = 'Companies - '
+        context["description"] = 'Companies - Python.PH Jobs Board'
+        context["page_type"] = 'website'
         return context
