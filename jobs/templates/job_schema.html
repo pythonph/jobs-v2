@@ -4,7 +4,7 @@
     "@type" : "JobPosting",
     "title" : "{{ job.title }}",
     "description" : "{{ job.description }}",
-    "datePosted" : "{{ job.created_at |date:"c" }}",
+    "datePosted" : "{{ job.created_at|date:"c" }}",
     {% if job.is_remote %}
     "jobLocationType": "TELECOMMUTE",
     "applicantLocationRequirements": {
