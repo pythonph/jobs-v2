@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ title }}Python.PH Jobs Board</title>
+    <title>{{ title }}{% if title %} - {% endif %}Python.PH Jobs Board</title>
     <meta name="description" content="{{ description }}" />
     <meta name="robots" content="follow, index, max-snippet:-1" />
     <!-- <link rel="canonical" href="{{ request.path }}" /> -->
     <meta property="og:type" content="{{ page_type }}" />
-    <meta property="og:title" content="{{ title }}Python.PH Jobs Board" />
+    <meta property="og:title" content="{{ title }}{% if title %} - {% endif %}Python.PH Jobs Board" />
     <meta property="og:description" content="{{ description }}" />
     <!-- <meta property="og:image" content="" /> -->
     <!-- <meta property="og:url" content="{{ request.path }}" /> -->
     <meta property="og:site_name" content="Python.PH Jobs Board" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ title }}Python.PH Jobs Board" />
+    <meta name="twitter:title" content="{{ title }}{% if title %} - {% endif %}Python.PH Jobs Board" />
     <meta name="twitter:description" content="{{ description }}" />
     <!-- <meta name="twitter:image" content="" /> -->
     {% block job_schema %}{% endblock %}
