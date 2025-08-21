@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'tailwind',
     'jobs',
+    'api',
     'users',
     'theme',
 ]
@@ -75,6 +76,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'jobs_v2.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
 
 
 # Database
