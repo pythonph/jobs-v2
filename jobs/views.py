@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
-from django.db.models import Q, Count, Max
-from .models import Job
+from django.db.models import Q, Count, Max, OuterRef
+from django.contrib.postgres.expressions import ArraySubquery
+from .models import Job, Tag
 
 
 class JobIndex(ListView):
@@ -9,7 +10,9 @@ class JobIndex(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().annotate(
+            tags = ArraySubquery(Tag.objects.filter(job=OuterRef('pk')).values('name'))
+        )
         search_query = self.request.GET.get('search', '')
         if search_query:
             queryset = queryset.filter(
@@ -31,6 +34,11 @@ class JobDetail(DetailView):
     model = Job
     template_name = "job_detail.html"
     context_object_name = 'job'
+
+    def get_queryset(self):
+        return super().get_queryset().annotate(
+            tags = ArraySubquery(Tag.objects.filter(job=OuterRef('pk')).values('name'))
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -18,6 +18,11 @@
                             <div class="badge badge-primary">Remote</div>
                         {% endif %}
                         <div class="badge badge-outline">{{ job.salary_range }}</div>
+                        {% for tag in job.tags %}
+                            <div class="badge badge-outline">
+                                <a href="/">{{ tag }}</a>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <button class="btn btn-primary">Apply Now</button>
