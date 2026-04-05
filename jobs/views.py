@@ -14,10 +14,15 @@ class JobIndex(ListView):
             tags = ArraySubquery(Tag.objects.filter(job=OuterRef('pk')).values('name'))
         )
         search_query = self.request.GET.get('search', '')
+        tag_query = self.request.GET.get('tag', '')
         if search_query:
             queryset = queryset.filter(
                 Q(title__icontains=search_query) |
                 Q(company_name__icontains=search_query)
+            )
+        if tag_query:
+            queryset = queryset.filter(
+                tags__contains=[tag_query]
             )
         return queryset
 
@@ -26,6 +31,7 @@ class JobIndex(ListView):
         context["job_count"] = self.get_queryset().count()
         context["company_count"] = Job.objects.values('company_name').distinct().count()
         context["search_query"] = self.request.GET.get('search', '')
+        context["tag_query"] = self.request.GET.get('tag', '')
         context["description"] = 'Python.PH Jobs Board'
         context["page_type"] = 'website'
         return context

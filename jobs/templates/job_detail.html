@@ -20,7 +20,7 @@
                         <div class="badge badge-outline">{{ job.salary_range }}</div>
                         {% for tag in job.tags %}
                             <div class="badge badge-outline">
-                                <a href="/">{{ tag }}</a>
+                                <a href="{% url 'job_index' %}?tag={{ tag }}">{{ tag }}</a>
                             </div>
                         {% endfor %}
                     </div>
