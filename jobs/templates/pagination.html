@@ -2,10 +2,10 @@
     <div class="pagination text-center">
         <span class="page-links">
             {% if page_obj.has_previous %}
-              <a class="btn" href="{% url 'job_index' %}?page={{ page_obj.previous_page_number }}"><</a>
+              <a class="btn" href="{% url 'job_index' %}{% querystring page=page_obj.previous_page_number %}"><</a>
             {% endif %}
             {% if page_obj.has_next %}
-              <a class="btn" href="{% url 'job_index' %}?page={{ page_obj.next_page_number }}">></a>
+              <a class="btn" href="{% url 'job_index' %}{% querystring page=page_obj.next_page_number %}"&{{ request.GET.urlencode }}>></a>
             {% endif %}
         </span>
     </div>

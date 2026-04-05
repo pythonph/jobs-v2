@@ -26,6 +26,11 @@
     </div>
 </form>
 
+<!-- Display Tag -->
+{% if tag_query %}
+    <div class="card-title mb-8">Showing jobs tagged '{{ tag_query }}':</div>
+{% endif %}
+
 <!-- Job Listings -->
 <div class="space-y-4">
     {% for job in object_list %}
@@ -43,6 +48,11 @@
                     <div class="badge badge-primary">Remote</div>
                 {% endif %}
                 <div class="badge badge-outline">{{ job.salary_range }}</div>
+                {% for tag in job.tags %}
+                    <div class="badge badge-outline">
+                        <a href="{% url 'job_index' %}?tag={{ tag }}">{{ tag }}</a>
+                    </div>
+                {% endfor %}
             </div>
             <p class="mt-4 text-base-content/70">
                 {{ job.short_description }}

@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from jobs.models import Job
+from jobs.models import Job, Tag
 from faker import Faker
 import random
 
@@ -19,8 +19,9 @@ class Command(BaseCommand):
         fake = Faker()
         count = kwargs['count']
 
-        # Delete all existing jobs
+        # Delete all existing jobs and tags
         Job.objects.all().delete()
+        Tag.objects.all().delete()
 
         # Common tech job titles and skills for more realistic data
         tech_roles = [
@@ -37,6 +38,15 @@ class Command(BaseCommand):
             'Manila', 'Makati', 'BGC', 'Ortigas', 'Quezon City', 'Cebu City',
             'Davao City', 'Pasig', 'Mandaluyong', 'Pasay'
         ]
+
+        # Create tags
+        tags = [
+            Tag(name='Django'),
+            Tag(name='FastAPI'),
+            Tag(name='Pandas'),
+            Tag(name='Automation')
+        ]
+        Tag.objects.bulk_create(tags)
 
         # Create jobs
         for _ in range(count):
@@ -65,6 +75,8 @@ class Command(BaseCommand):
                 ]),
                 is_remote=random.choice([True, False, True])  # 66% chance of remote work
             )
+
+            job.assigned_tags.add(*random.sample(tags, random.choice(range(1, 3))))  # add 1 or 2 tags
 
             self.stdout.write(
                 self.style.SUCCESS(f'Created job: {job.title} at {job.company_name}')
